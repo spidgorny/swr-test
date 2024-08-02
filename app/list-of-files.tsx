@@ -2,6 +2,7 @@
 
 import useSWR from "swr";
 import {useState} from "react";
+import {FidgetSpinner} from "react-loader-spinner";
 
 export function useFiles() {
 	const {isLoading, isValidating, data, error, mutate} = useSWR<{
@@ -43,16 +44,24 @@ export function ListOfFiles() {
 	const {isLoading, isValidating, files, mutate, touchFile, isWorking} = useFiles();
 
 	return <div className="flex-1">
-		<div>
+		<div className="flex justify-between">
 			<button className="bg-fuchsia-800 px-4 py-1 rounded m-1" onClick={() => mutate()}>Mutate
-				<span className="px-2">{isValidating ? 'Loading' : ''}</span>
 			</button>
+			<span className="px-2">{isValidating && <FidgetSpinner
+				height="32"
+				width="32"
+			/>}</span>
 		</div>
-		<div>
-			<button className="bg-fuchsia-800 px-4 py-1 rounded m-1" onClick={() => touchFile('asd')}>Touch asd</button>
-			<button className="bg-fuchsia-800 px-4 py-1 rounded m-1" onClick={() => touchFile('bas')}>Touch bas</button>
+		<div className="flex justify-between">
+			<div>
+				<button className="bg-fuchsia-800 px-4 py-1 rounded m-1" onClick={() => touchFile('asd')}>Touch asd</button>
+				<button className="bg-fuchsia-800 px-4 py-1 rounded m-1" onClick={() => touchFile('bas')}>Touch bas</button>
+			</div>
 			<span
-				className="px-2">{isWorking ? 'Working' : ''}</span>
+				className="px-2">{isWorking && <FidgetSpinner
+				height="32"
+				width="32"
+			/>}</span>
 		</div>
 		<ul className="font-mono">
 			{files.map((file) => (
